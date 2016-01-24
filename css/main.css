@@ -2,14 +2,11 @@
     Pond Reset - Start everything with a clean slate
    ################################################## */
 
-html, body, div, span, applet, object, iframe, h1, 
-h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, 
-acronym, address, big, cite, code, del, dfn, em, 
-font, img, ins, kbd, q, s, samp, small, strike, 
-strong, sub, sup, tt, var, .overlaycaption, figure, 
-b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
-form, label, legend, table, caption, tbody, tfoot, 
-thead, tr, th, td {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, 
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, 
+font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, 
+.overlaycaption, figure, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
+form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
@@ -17,12 +14,12 @@ thead, tr, th, td {
     font-size: 100%; }
     
 ol, ul  { list-style: none; }
-
 :focus  { outline: 0; }
 
 /* deleting the default appearence for form elements */
 input[type=text], input[type=password], input[type=submit], textarea, select { -moz-appearance: none; -webkit-appearance: none; }
 
+/* Clearfix definition */
 .clearfix:after { content: ""; display: block; clear: both; visibility: hidden; font-size: 0;  height: 0; }
 .clearfix { *display: inline-block; height: 1%; }
 .clear { clear: both; display: block; font-size: 0; height: 0; line-height: 0; width:100%; }
@@ -33,7 +30,10 @@ audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
 audio:not([controls]) { display: none; }
 [hidden] { display: none; visibility: hidden; }
 
-/* ############################################ */
+
+/* #############################
+	Interactive version styling 
+   ############################# */
 
 html, body, #game-area {
 	width: 100%;
@@ -43,10 +43,18 @@ html, body, #game-area {
 
 #enemy-box {
 	width: 100%;
-	height: 65%;
+	height: 70%;
 	margin: 0;
-	padding: 0;
+	padding: 100px;
 }
+	#enemy-box p {
+		display: inline-block;
+		font-family: monospace;
+		font-size: 16px;
+		color: white;
+		white-space: pre;
+
+	}
 
 .enemy, .player, .bullet {
 	box-sizing: border-box;
@@ -66,13 +74,44 @@ html, body, #game-area {
 .player {
 	width: 125px;
 	height: 125px;
-	left: 50%;
+	left: 45%;
 	bottom: 25px;
 	background-color: blue;
 }
 
 .bullet {
-	width: 5px;
+	width: 6px;
 	height: 20px;
 	background-color: gold;
+}
+
+.hit {
+	opacity: 0;
+}
+
+
+/* #########################
+	Standard portfolio view
+   ######################### */
+
+nav {
+	display: inline;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 10px;
+	background-color: #d0d0d0;
+	z-index: 999;
+}
+	nav .nav-header {
+
+	}
+	nav ul, nav ul li {
+		display: inline-block;
+	}
+
+#standard-view {
+	display: none;
 }

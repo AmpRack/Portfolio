@@ -1,49 +1,61 @@
-var fps = 30;			  // Target frame rate
+/* #####################
+	Basic vars and decs
+   ##################### */
+var fps = 60;			  // Target frame rate
 var keyLeft = false;	  // Keydown Left
 var keyRight = false;     // Keydown right
 var keyShoot = false;	  // Keydown space
-var playerSpeed = 25;	  // Pixels to move per unit
-var	$player = ''; 		  // Player element
-var $gameArea = '';		  // Gamearea element
+var playerSpeed = 25;
+var	$player = '';		  
+var $gameArea = '';		  
+var textFromPage = [];    // Holds all text from page, as individual characters
+var $tiles = [];  		  // Cache of all collidable $objects on screen
 
-var bulletSpeed = 100;	  // Pixels to move per unit
-var bulletWaitTime = 10;  // Number of frames to wait
-var bulletTimer = 0;      // Number of frames waited
+var bulletSpeed = 150;
+var bulletWaitTime = 16;  // Minimum time between bullets fired
+var bulletTimer = 0; 	  // Number of frames since last bullet successfully fired
 
+
+/* ##################
+	Helper functions 
+   ################## */
+Array.prototype.last = function() {
+	return this[this.length - 1];
+};
+
+
+/* ####################
+	Input and Controls
+   #################### */
 function handleKeyDown(e) {
 	if (e.keyCode == 37 || e.keyCode == 65) {
 		keyLeft = true;
-		console.log('Going left');
 	}
 	if (e.keyCode == 39 || e.keyCode == 68) {
 		keyRight = true;
-		console.log('Going right');
 	}
 	if (e.keyCode == 32) {
 		keyShoot = true;
-		console.log('Shooting');
 	}
 };
 
 function handleKeyUp(e) {
 	if (e.keyCode == 37 || e.keyCode == 65) {
 		keyLeft = false;
-		console.log('Not going left');
 	}
 	if (e.keyCode == 39 || e.keyCode == 68) {
 		keyRight = false;
-		console.log('Not going right');
 	}
 	if (e.keyCode == 32) {
 		keyShoot = false;
 		bulletTimer = bulletWaitTime;
-		console.log('Not shooting');
 	}
 };
 
 function calculateInput() {
-	// Keep player within bounds of screen
 	var playerPos = parseInt($player.css('left').replace('px', ''));
+
+	// Keep player within bounds of screen!
 	if (playerPos <= 30) {
 		keyLeft = false;
 		$player.stop().css({left: '30px'});
@@ -51,9 +63,10 @@ function calculateInput() {
 		keyRight = false;
 		$player.stop().css({left: $gameArea.width() - $player.width() - 30 + 'px'});
 	}
+
 	// Move right
 	if (keyRight && !keyLeft) {
-		$('.player').animate({
+		$player.animate({
 			'left': '+=' + playerSpeed
 		},{
 			duration: 200,
@@ -62,14 +75,15 @@ function calculateInput() {
 	}
 	// Move left
 	if (keyLeft && !keyRight) {
-		$('.player').animate({
+		$player.animate({
 			'left': '-=' + playerSpeed
 		},{
 			duration: 200,
 			easing: 'easeOutQuint'
 		}).dequeue();
 	}
-	// Shoot bullets
+
+	// Fire guns, with cool-down timer
 	if (keyShoot && bulletTimer >= bulletWaitTime) {
 		createBullet();
 		bulletTimer = 0;
@@ -78,93 +92,118 @@ function calculateInput() {
 	}
 };
 
+
+/* #############################
+	Projectiles and moving bits
+   ############################# */
 function createBullet() {
 	var bulletPos = {
 		left: $player.position().left + ($player.width() / 2),
-		top: $player.position().top - 30
-	}
-	$gameArea.append($('<div/>').addClass('bullet').css(bulletPos));
+		top: $player.position().top - 25
+	};
+	var bulletTarget = fetchTarget(bulletPos);
+	$gameArea.append($('<div/>').addClass('bullet').css(bulletPos).data({ 'target': bulletTarget }));
 };
 
 function moveBullets() {
-	$('.bullet').animate({
-		'top': '-=' + bulletSpeed
-	},{
-		duration: 100,
-		easing: 'linear'
-	}).dequeue();
-};
-
-function detectCollision() {
 	$('.bullet').each(function() {
-		var $bullet = $(this);
-		var bulletPos = {
-			top: $bullet.position().top,
-			left: $bullet.position().left - 2,
-			right: $bullet.position().left + $bullet.width() + 2,
-			bottom: $bullet.position.top + $bullet.height()
-		};
-		var bulletHit = false;
+		$(this).animate({
+			'top': '-=' + bulletSpeed
+		},{
+			duration: 100,
+			easing: 'linear'
+		}).dequeue();
 
-		$('.enemy').each(function() {
-			if (!bulletHit) {
-				var $enemy = $(this);
-				var enemy = {
-					top: $enemy.position().top,
-					left: $enemy.position().left,
-					right: $enemy.position().left + $enemy.width(),
-					bottom: $enemy.position().top + $enemy.height()
-				};
+		var target = $(this).data('target');
+		var bulletTop = $(this).position().top;
 
-				if (bulletPos.top <= enemy.bottom) {
-					if (bulletPos.right > enemy.left && bulletPos.left < enemy.right || 
-						bulletPos.left < enemy.right && bulletPos.right > enemy.left ) {
-
-					console.log('Successful collision!');
-					bulletHit = true;
-					$bullet.remove();
-					$enemy.remove();
-					}
-				}
+		// Successful bullet-tile collision
+		if (bulletTop <= target[0]) {
+			for (var i = 1; i < target.length; i++) {
+				target[i].addClass('hit');
 			}
-		});
-
-		if (bulletPos.top < 0 - $bullet.height()) {
-			$bullet.remove();
+			$(this).remove();
 		}
-	})
+
+		// Remove bullet when it goes off-screen
+		if (bulletTop < 25) {
+			$(this).remove();
+		}
+	});
 };
 
-function propagateEnemies() {
-	var $enemybox = $('#enemy-box');
-	var enemySize = 100 + (15 * 2); // Tile size, plus spacing on both sides
+function fetchTarget(bulletPos) {
+	var hitList = [];
+	var lowBound = 0;
 	
-	// Determine quantity of enemies and spacing first, then put them in place sequentially
-	var x = Math.floor($enemybox.width() / enemySize);
-	var xSpacing = ($enemybox.width() % enemySize) / (x + 1);
-	var y = Math.floor($enemybox.height() / enemySize);
-	var ySpacing = ($enemybox.height() % enemySize) / (y + 1);
-
-	for (var j = 0; j < y; j++) {
-		for (var i = 0; i < x; i++) {
-			var position = { 'top': (j * enemySize) + 15 + (ySpacing * 2) + 'px',
-							 'left': (i * enemySize) + 15 + (xSpacing * 2) + 'px' };
-			$enemybox.append($('<div/>').addClass('enemy').css(position));
+	// Scan the $tiles backwards, look for any tile in the bullet's path, and then mark the lowest tiles for later collision
+	for (var i = $tiles.length - 1; i >= 0; i--) {
+		var $this = $tiles[i];
+		if (!$this.hasClass('marked') && (($this.position().left < bulletPos.left + 11 && 
+			 $this.position().left + $this.width() > bulletPos.left - 5)))  {
+			if ($this.position().top + $this.height() >= lowBound) {
+				hitList.push($this);
+				lowBound = $this.position().top + $this.height();
+				$this.addClass('marked');
+			} else {
+				break;
+			}
 		}
+	};
+	
+	hitList.push(lowBound);
+	return hitList.reverse();
+}
+
+
+/* #############
+	Level setup
+   ############# */
+function parseText() {
+	// Divide all text on page into individual letters
+	$('.slide p').each(function() {
+		var temp = this.innerText.split('');
+		for (var i = 0; i < temp.length; i++) {
+			if (!(/\w/.test(temp[i]))) {
+				temp[i - 1] += temp[i];
+				temp.splice(i, 1);
+				i--;
+			}
+		}
+		textFromPage.push(temp); 
+	});
+};
+
+function loadLevel(slideNum) {
+	$tiles = [];
+	for (i = 0; i < textFromPage[slideNum].length; i++) {
+		$('#enemy-box').append($('<p>' + textFromPage[slideNum][i] + '</p>').removeClass('hit marked'));
 	}
-};
 
-function mainLoop() {
-	calculateInput();
-	moveBullets();
-	detectCollision();
+	$('#enemy-box p').each(function() {
+		$tiles.push($(this));
+	});
 };
+	
 
-$(document).ready(function() {
+/* ############
+	Game logic
+   ############ */
+function init() {
 	window.addEventListener('keydown', handleKeyDown, true);
 	window.addEventListener('keyup', handleKeyUp, true);
 	$player = $('.player');
 	$gameArea = $('#game-area');
-	propagateEnemies();
+	parseText();
+	loadLevel(0);
+}
+
+function mainLoop() {
+	calculateInput();
+	moveBullets();
+};
+
+$(document).ready(function() {
+	init();
 	setInterval(mainLoop, 1000 / fps);
 });
