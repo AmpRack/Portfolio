@@ -1,0 +1,74 @@
+/* ##################################################
+    Pond Reset - Start everything with a clean slate
+   ################################################## */
+
+html, body, div, span, applet, object, iframe, h1, 
+h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, 
+acronym, address, big, cite, code, del, dfn, em, 
+font, img, ins, kbd, q, s, samp, small, strike, 
+strong, sub, sup, tt, var, .overlaycaption, figure, 
+b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
+form, label, legend, table, caption, tbody, tfoot, 
+thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%; }
+    
+ol, ul  { list-style: none; }
+
+:focus  { outline: 0; }
+
+/* deleting the default appearence for form elements */
+input[type=text], input[type=password], input[type=submit], textarea, select { -moz-appearance: none; -webkit-appearance: none; }
+
+.clearfix:after { content: ""; display: block; clear: both; visibility: hidden; font-size: 0;  height: 0; }
+.clearfix { *display: inline-block; height: 1%; }
+.clear { clear: both; display: block; font-size: 0; height: 0; line-height: 0; width:100%; }
+
+/* HTML5 display definitions */
+article, aside, details, .overlaycaption, figure, footer, header, hgroup, menu, nav, section, dialog { display: block; }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+audio:not([controls]) { display: none; }
+[hidden] { display: none; visibility: hidden; }
+
+/* ############################################ */
+
+body, #game-area {
+	width: 100%;
+	height: 100%;
+	background-color: black;
+}
+
+#enemy-box, #player-box {
+	width: 100%;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+#player-box {
+	position: absolute;
+	bottom: 0;
+}
+
+.enemy, .player {
+	box-sizing: content-box;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100px;
+	height: 100px;
+	border: 2px dashed white;
+}
+	
+.enemy {
+	margin: 5px 2%;
+	background-color: red;
+}
+
+.player {
+	position: relative;
+	background-color: blue;
+	left: 22.8%;
+}
