@@ -343,7 +343,6 @@ function loadLevel(slideNum) {
 function toggleGamemode() {
 	$gameArea.focus();
 	gameMode = !gameMode;
-
 	if (gameMode) {
 		// Enable player and scorebox. Any additional transitions can go here, too
 		$('.player').css('display', 'block');
@@ -383,23 +382,7 @@ function mainLoop() {
 	if ($('.particle')) moveParticles();
 };
 
-
-/* ########################################################
-    Everything above this line is being moved to game.js.
-    Left here for this commit to better view file changes.
-   ######################################################## */
 $(document).ready(function() {
 	init();
-	$('#play-button span').mouseover(function() {
-		$(this).parent().css('border-color', 'white');
-	});
-	$('#play-button span').mouseout(function() {
-		$(this).parent().css('border-color', 'red');
-	});
-
-  // Close the Responsive Menu on Menu Item Click
-  $('.navbar-collapse ul li a').click(function() {
-      $('.navbar-toggle:visible').click();
-  });
 	setInterval(mainLoop, 1000 / fps);
 });

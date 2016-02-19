@@ -1,7 +1,6 @@
 /* ##################################################
     Pond Reset - Start everything with a clean slate
    ################################################## */
-
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, 
 blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, 
 font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, 
@@ -31,87 +30,263 @@ audio:not([controls]) { display: none; }
 [hidden] { display: none; visibility: hidden; }
 
 
-/* #############################
-	Interactive version styling 
-   ############################# */
-
-html, body, #game-area {
+/* ###############
+    Basic styling
+   ############### */
+@font-face { /* Font courtesy of http://doir.ir/fixedsys */
+	font-family: 'FixedsysExcelsior301Regular';
+	src: url('fonts/fsex300-webfont.eot');
+	src: url('fonts/fsex300-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('fonts/fsex300-webfont.woff') format('woff'),
+	     url('fonts/fsex300-webfont.ttf') format('truetype'),
+	     url('fonts/fsex300-webfont.svg#FixedsysExcelsior301Regular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	-webkit-font-smoothing: aliased;
+	font-smoothing: never;
+}
+html, body {
 	width: 100%;
 	height: 100%;
-	background-color: black;
+	background-color: orange;
 }
-
-#enemy-box {
-	width: 100%;
-	height: 70%;
-	margin: 0;
-	padding: 100px;
-}
-	#enemy-box p {
-		display: inline-block;
-		font-family: monospace;
-		font-size: 16px;
-		color: white;
-		white-space: pre;
-
-	}
-
-.enemy, .player, .bullet {
-	box-sizing: border-box;
-	display: inline-block;
-	position: absolute;
-	margin: 0;
-	padding: 0;
-	border: 2px dashed white;
-}
-	
-.enemy {
-	width: 100px;
-	height: 100px;
-	background-color: red;
-}
-
-.player {
-	width: 125px;
-	height: 125px;
-	left: 45%;
-	bottom: 25px;
-	background-color: blue;
-}
-
-.bullet {
-	width: 6px;
-	height: 20px;
-	background-color: gold;
-}
-
-.hit {
-	opacity: 0;
-}
-
-
-/* #########################
-	Standard portfolio view
-   ######################### */
-
-nav {
+p, .particle {
 	display: inline;
+	font-family: 'FixedsysExcelsior301Regular';
+	color: black;
+	white-space: pre;
+	text-shadow: 3px 3px 4px #b1b1b1;
+	margin-bottom: 0;
+}
+#standard-view {
+	display: none;
+}
+
+
+/* #################
+    Navbar Settings
+   ################# */
+nav { 
+	display: block;
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
 	margin: 0;
-	padding: 10px;
-	background-color: #d0d0d0;
+	padding: 0;
+	background-color: #292929;
+	border-bottom: 4px groove #e1e1e1;
 	z-index: 999;
 }
-	nav .nav-header {
-
-	}
-	nav ul, nav ul li {
+	nav ul {
 		display: inline-block;
+		float: right;
+		padding: 10px 20px 10px 15px;
+	}
+	.btn-nav {
+		display: inline-block;
+		background-color: orange;
+		margin: 2px 5px;
+		padding: 8px 15px;
+		border: 3px solid black;
+		border-radius: 9px;
+		color: black;
+		font-weight: 700;
+		line-height: 1.42857143;
+	}
+		.btn-nav:hover {
+			border-color: white;
+			cursor: pointer;
+		}
+		.btn-nav {
+			margin-right: 0;
+		}
+#play-button { /* Outer border */
+	display: inline-block;
+	position: fixed;
+	top: 6px;
+	left: 6px;
+	width: 58px;
+	height: 58px;
+	box-sizing: border-box;
+	border: 6px groove red;
+	border-radius: 50%;
+	border-style: groove ridge ridge groove;
+}
+	#play-button span { /* Pseudo Button, handled by jQuery */
+		display: inline-block;
+		position: relative;
+		width: 92%;
+		height: 92%;
+		margin: 4%;
+		padding: 9px 0 0 2px;
+		color: white;
+		background-color: #dd0000;
+		border-radius: 50%;
+		font-family: 'FixedsysExcelsior301Regular';
+		text-shadow: 1px 1px black;
+		-moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
 	}
 
-#standard-view {
-	display: none;
+
+/* ###################
+    Main display area
+   ################### */
+#game-area {
+	position: absolute;
+	top: 100px;
+	left: 12.5%;
+	bottom: 30px;
+	width: 75%;
+	padding-top: 20px;
+	background-color: white;
+	border: 5px groove #292929;
+	border-radius: 25px;
 }
+	#score-box {
+		display: inline-block;
+		position: relative;
+		top: 23px;
+		left: 8%;
+		margin: 0;
+		padding: 0 4px;
+		border: 3px groove black;
+		border-radius: 8px;
+		box-shadow: 3px 3px 4px #b1b1b1;
+		opacity: 0;
+		z-index: 999;
+	}
+		#score-box p {
+			display: block;
+			position: relative;	
+			background-color: white;
+			font-size: 22px;
+			text-align: center;
+			line-height: 1em;
+		}
+			#score-box p:first-child {
+				top: -12px;
+				left: 16px;
+				width: 70%;
+				padding: 0px;
+			}
+			#score-box p:nth-child(2) {
+				width: 100%;
+				top: -10px;
+				padding: 0 10px;
+			}
+#enemy-box {
+	position: relative;
+	top: -30px;
+	left: 0px;
+	width: 100%;
+	height: 70%;
+	margin: 0;
+	padding: 0 60px;
+}
+	.gameSpacer {
+		width: 100%;
+		height: 20px;
+	}
+
+
+/* ######################
+    Interactive elements
+   ###################### */
+.player, .bullet {
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+.player { /* Player starts disabled by default */
+	display: none;
+	position: absolute;
+	left: 45%;
+	bottom: 8px;
+	font-size: 9px;
+	font-weight: bold;
+	line-height: .79em;
+	letter-spacing: .045em;
+	background-color: transparent;
+}
+	.player-shipbody {
+		color: grey;
+	}
+	.player-decor {
+		color: #0000ff;
+	}
+	.player-fireinner {
+		color: gold;
+	}
+	.player-fireouter {
+		color: #cc0000;
+	}
+.bullet {
+	position: absolute;
+	width: 6px;
+	height: 20px;
+	border: 2px dashed #e1e1e1;
+	background-color: gold;
+	z-index: 0;
+}
+.word {
+	display: inline-block;
+	font-size: 18px;
+}
+	.hit {
+		opacity: 0;
+}
+	.particle {
+		display: inline;
+		position: absolute;
+		font-size: 16px;
+		color: #b2b2b2;
+		z-index: 0;
+		text-shadow: none;
+	}
+
+
+/* #########################
+	  Standard portfolio view
+   ######################### */
+.slide-header { 
+	display: block;
+	text-align: center;
+}
+	.slide-header > .word  {
+		font-size: 42px;
+	}
+.btn-slide { /* Contains the clickable button and its accompanying text */
+	display: inline-table;
+	width: 33.3%;
+	margin: 10px 0%;
+	padding: 0;
+	text-align: center;
+}
+	.btn-title {
+		display: inline-block;
+		border: 2px solid black;
+		border-radius: 10px;
+		width: 150px;
+		margin: 0 8px;
+		padding: 2px 3px 2px 15px;
+		cursor: pointer;
+		text-align: center;
+	}
+		.btn-title > .word {
+			font-size: 22px;
+		}
+		.btn-title.shield:hover {
+			background-color: orange;
+		}
+	.btn-text {
+		display: inline-block;
+		width: 140px;
+		text-align: center;
+	}
