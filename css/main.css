@@ -6,23 +6,19 @@ blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
 font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, 
 .overlaycaption, figure, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
 form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    outline: 0;
-    font-size: 100%; }
-    
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%; }
 ol, ul  { list-style: none; }
 :focus  { outline: 0; }
-
 /* deleting the default appearence for form elements */
 input[type=text], input[type=password], input[type=submit], textarea, select { -moz-appearance: none; -webkit-appearance: none; }
-
 /* Clearfix definition */
 .clearfix:after { content: ""; display: block; clear: both; visibility: hidden; font-size: 0;  height: 0; }
 .clearfix { *display: inline-block; height: 1%; }
 .clear { clear: both; display: block; font-size: 0; height: 0; line-height: 0; width:100%; }
-
 /* HTML5 display definitions */
 article, aside, details, .overlaycaption, figure, footer, header, hgroup, menu, nav, section, dialog { display: block; }
 audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
@@ -30,78 +26,45 @@ audio:not([controls]) { display: none; }
 [hidden] { display: none; visibility: hidden; }
 
 
-/* ###############
-    Basic styling
-   ############### */
+
+
+
+/* ##############
+  	Base styling 
+   ############## */
 @font-face { /* Font courtesy of http://doir.ir/fixedsys */
 	font-family: 'FixedsysExcelsior301Regular';
-	src: url('fonts/fsex300-webfont.eot');
-	src: url('fonts/fsex300-webfont.eot?#iefix') format('embedded-opentype'),
-	     url('fonts/fsex300-webfont.woff') format('woff'),
-	     url('fonts/fsex300-webfont.ttf') format('truetype'),
-	     url('fonts/fsex300-webfont.svg#FixedsysExcelsior301Regular') format('svg');
+	src: url('../fonts/fsex300-webfont.eot');
+	src: url('../fonts/fsex300-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('../fonts/fsex300-webfont.woff') format('woff'),
+	     url('../fonts/fsex300-webfont.ttf') format('truetype'),
+	     url('../fonts/fsex300-webfont.svg#FixedsysExcelsior301Regular') format('svg');
 	font-weight: normal;
 	font-style: normal;
 	-webkit-font-smoothing: aliased;
 	font-smoothing: never;
 }
+
 html, body {
 	width: 100%;
 	height: 100%;
 	background-color: orange;
 }
-p, .particle {
-	display: inline;
+
+h1, p, .particle {
 	font-family: 'FixedsysExcelsior301Regular';
 	color: black;
 	white-space: pre;
 	text-shadow: 3px 3px 4px #b1b1b1;
 	margin-bottom: 0;
 }
-#standard-view {
-	display: none;
-}
+
 
 
 /* #################
     Navbar Settings
    ################# */
-nav { 
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-	background-color: #292929;
-	border-bottom: 4px groove #e1e1e1;
-	z-index: 999;
-}
-	nav ul {
-		display: inline-block;
-		float: right;
-		padding: 10px 20px 10px 15px;
-	}
-	.btn-nav {
-		display: inline-block;
-		background-color: orange;
-		margin: 2px 5px;
-		padding: 8px 15px;
-		border: 3px solid black;
-		border-radius: 9px;
-		color: black;
-		font-weight: 700;
-		line-height: 1.42857143;
-	}
-		.btn-nav:hover {
-			border-color: white;
-			cursor: pointer;
-		}
-		.btn-nav {
-			margin-right: 0;
-		}
-#play-button { /* Outer border */
+#play-button {
 	display: inline-block;
 	position: fixed;
 	top: 6px;
@@ -113,7 +76,7 @@ nav {
 	border-radius: 50%;
 	border-style: groove ridge ridge groove;
 }
-	#play-button span { /* Pseudo Button, handled by jQuery */
+	#play-button span {
 		display: inline-block;
 		position: relative;
 		width: 92%;
@@ -133,53 +96,157 @@ nav {
     cursor: pointer;
 	}
 
+nav { 
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #292929;
+	border-bottom: 4px groove #e1e1e1;
+	z-index: 999;
+}
+	.navbar-toggle {
+		color: white;
+		margin: 10px 12px;
+		padding: 4px 8px;
+		border: 2px solid white;
+	}
+		.navbar-toggle:hover {
+			background-color: orange;
+		}
+	.nav-header {
+		display: inline-block;
+		position: relative;
+		top: 10px;
+		left: 12px;
+	}
+	nav ul {
+		display: inline-block;
+		float: right;
+		padding: 10px 20px 10px 15px;
 
-/* ###################
-    Main display area
-   ################### */
+	}
+	.btn-nav {
+		display: inline-block;
+		margin: 2px 5px;
+		padding: 8px 15px;
+		border-radius: 9px;
+		background-color: orange; 
+		color: black;
+		font-weight: 700;
+		line-height: 1.42857143;
+		border: 3px solid black;
+	}
+		.btn-nav:hover {
+			cursor: pointer;
+			border: 3px solid white;
+		}
+		.nav-header .btn-nav {
+			margin-right: 0;
+		}
+
+@media all and (min-width: 502px) {
+	nav {
+		display: block;
+		width: 100%;
+		padding: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		z-index: 999;
+  }
+	.navbar-nav {
+		float: right;
+	}
+	.navbar-toggle {
+		display: none;
+	}
+	.nav-header {
+		display: inline-block;
+		position: relative;
+		top: 10px;
+		left: 12px;
+	}
+	.navbar-collapse {
+		display: inline-block;
+	}
+	nav ul {
+		display: inline-block;
+		float: right;
+		padding: 9px 20px 9px 15px;
+	}
+	.btn-nav {
+		display: inline-block;
+		margin: 2px 5px;
+		padding: 8px 15px;
+		border-radius: 9px;
+		color: black;
+		font-weight: 700;
+		line-height: 1.42857143;
+		border: 3px solid black;
+	}
+		.btn-nav:hover {
+			cursor: pointer;
+			border: 3px ridge #e1e1e1;
+		}
+		.nav-header .btn-nav {
+			margin-right: 0;
+		}
+}
+
+
+/* ####################
+		Gamearea and Tiles
+	 #################### */
 #game-area {
 	position: absolute;
+	width: 75%;
 	top: 100px;
 	left: 12.5%;
 	bottom: 30px;
-	width: 75%;
 	padding-top: 20px;
 	background-color: white;
 	border: 5px groove #292929;
 	border-radius: 25px;
 }
-	#score-box {
-		display: inline-block;
-		position: relative;
-		top: 23px;
-		left: 8%;
-		margin: 0;
-		padding: 0 4px;
-		border: 3px groove black;
-		border-radius: 8px;
-		box-shadow: 3px 3px 4px #b1b1b1;
-		opacity: 0;
-		z-index: 999;
+
+#score-box {
+	opacity: 0;
+	display: inline-block;
+	position: relative;
+	top: 23px;
+	left: 8%;
+	margin: 0;
+	padding: 0 4px;
+	border: 3px groove black;
+	border-radius: 8px;
+	box-shadow: 3px 3px 4px #b1b1b1;
+	z-index: 9999;
+}
+	#score-box p {
+		display: block;
+		position: relative;	
+		font-size: 22px;
+		text-align: center;
+		line-height: 1em;
+		background-color: white;
 	}
-		#score-box p {
-			display: block;
-			position: relative;	
-			background-color: white;
-			font-size: 22px;
-			text-align: center;
-			line-height: 1em;
+		#score-box p:first-child {
+			top: -12px;
+			left: 16px;
+			width: 70%;
+			padding: 0px;
 		}
-			#score-box p:first-child {
-				top: -12px;
-				left: 16px;
-				width: 70%;
-				padding: 0px;
-			}
-			#score-box p:nth-child(2) {
-				width: 100%;
-				top: -10px;
-				padding: 0 10px;
-			}
+		#score-box p:nth-child(2) {
+			width: 100%;
+			top: -10px;
+			padding: 0 10px;
+		}
+
 #enemy-box {
 	position: relative;
 	top: -30px;
@@ -187,24 +254,25 @@ nav {
 	width: 100%;
 	height: 70%;
 	margin: 0;
-	padding: 0 60px;
+	padding: 0 40px;
+	text-align: center;
 }
-	.gameSpacer {
-		width: 100%;
-		height: 20px;
+	#enemy-box p {
+		display: inline;
 	}
 
+.gameSpacer {
+	width: 100%;
+	height: 20px;
+}
 
-/* ######################
-    Interactive elements
-   ###################### */
 .player, .bullet {
 	box-sizing: border-box;
 	display: inline-block;
 	margin: 0;
 	padding: 0;
 }
-.player { /* Player starts disabled by default */
+.player {
 	display: none;
 	position: absolute;
 	left: 45%;
@@ -215,18 +283,11 @@ nav {
 	letter-spacing: .045em;
 	background-color: transparent;
 }
-	.player-shipbody {
-		color: grey;
-	}
-	.player-decor {
-		color: #0000ff;
-	}
-	.player-fireinner {
-		color: gold;
-	}
-	.player-fireouter {
-		color: #cc0000;
-	}
+	.player-shipbody { color: grey; }
+	.player-decor { color: #0000ff; }
+	.player-fireinner { color: gold; }
+	.player-fireouter {	color: #cc0000; }
+
 .bullet {
 	position: absolute;
 	width: 6px;
@@ -235,58 +296,86 @@ nav {
 	background-color: gold;
 	z-index: 0;
 }
+	.hit {
+		opacity: 0;
+}
+
+/* ##################
+	  Text and Buttons
+   ################## */
+#standard-view, .help-text {
+	display: none;
+}
+.slide-header {
+	display: block;
+	text-align: center;
+}
 .word {
 	display: inline-block;
 	font-size: 18px;
 }
-	.hit {
-		opacity: 0;
-}
-	.particle {
-		display: inline;
-		position: absolute;
-		font-size: 16px;
-		color: #b2b2b2;
-		z-index: 0;
-		text-shadow: none;
-	}
-
-
-/* #########################
-	  Standard portfolio view
-   ######################### */
-.slide-header { 
-	display: block;
-	text-align: center;
-}
-	.slide-header > .word  {
+	.slide-header > .word {
 		font-size: 42px;
 	}
-.btn-slide { /* Contains the clickable button and its accompanying text */
+.particle {
+	display: inline;
+	position: absolute;
+	font-size: 16px;
+	color: #b2b2b2;
+	z-index: 0;
+	text-shadow: none;
+}
+
+
+.btn-slide {
 	display: inline-table;
 	width: 33.3%;
-	margin: 10px 0%;
+	margin: 10px auto;
 	padding: 0;
 	text-align: center;
+	vertical-align: top;
 }
-	.btn-title {
-		display: inline-block;
-		border: 2px solid black;
-		border-radius: 10px;
-		width: 150px;
-		margin: 0 8px;
-		padding: 2px 3px 2px 15px;
-		cursor: pointer;
-		text-align: center;
+.btn-title {
+	display: inline-block;
+	border: 2px solid black;
+	border-radius: 10px;
+	width: 150px;
+	margin: 0 8px;
+	padding: 2px 3px;
+	cursor: pointer;
+	text-align: center;
+}
+	.btn-title > .word {
+		font-size: 22px;
 	}
-		.btn-title > .word {
-			font-size: 22px;
-		}
-		.btn-title.shield:hover {
-			background-color: orange;
-		}
-	.btn-text {
-		display: inline-block;
-		width: 140px;
-		text-align: center;
+	.btn-title.shield:hover {
+		background-color: orange;
 	}
+
+.btn-text {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+
+#misc h1 { /* Level Complete */
+	display: none;
+	position: fixed;
+	top: 35%;
+	left: 25%;
+	z-index: 99999;
+	font-family: 'FixedsysExcelsior301Regular';
+	font-size: 72px;
+	color: black;
+	text-shadow: 3px 3px 4px orange;
+	text-align: center;
+	vertical-align: center;
+}
+
+.help-text span { /* Special one-time text */
+	margin: 0;
+	padding: 0 7px;
+	border: 2px solid black;
+	border-radius: 6px;
+}
